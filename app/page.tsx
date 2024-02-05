@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import AuthProvider from "./_components/auth-provider";
+import AuthProvider from "./_components/auth/auth-provider";
 
 export const metadata: Metadata = {
   title: "Authentication",

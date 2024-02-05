@@ -10,7 +10,7 @@ import { Pacifico } from "next/font/google";
 const dancing_script = Pacifico({ subsets: ["latin"], weight: "400" });
 
 export default function AuthProvider() {
-  const [showLogin, setShowLogin] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(true);
 
   const toggleClick = () => {
     setShowLogin((prev) => !prev);
