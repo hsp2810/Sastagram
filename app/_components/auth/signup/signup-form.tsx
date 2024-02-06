@@ -140,7 +140,7 @@ export function SignupForm() {
               {isPending ? (
                 <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
               ) : (
-                "Sign In with Email"
+                "Signup"
               )}
             </Button>
           </div>

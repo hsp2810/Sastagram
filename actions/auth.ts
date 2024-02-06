@@ -2,6 +2,8 @@
 
 import { LoginSchema, RegisterSchema } from "@/schemas";
 import * as z from "zod";
+import bcrypt from "bcrypt";
+import prisma from "@/lib/prisma";
 
 export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -22,5 +24,25 @@ export const actionRegister = async (
     return { error: "Invalid Fields!" };
   }
 
-  return { success: "Email sent!" };
+  const { username, name, email, password } = validatedFields.data;
+
+  const userExist = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (userExist) return { error: "Email already taken. Use a different one!" };
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const newUser = await prisma.user.create({
+    data: {
+      username,
+      name,
+      email,
+      password: hashedPassword,
+    },
+  });
+  console.log("Printing the new user: ", newUser);
+  if (!newUser) return { error: "Something went wrong in creating account!" };
+
+  return { success: "Account created successfully!" };
 };

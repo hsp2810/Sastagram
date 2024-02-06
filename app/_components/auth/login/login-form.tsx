@@ -30,8 +30,9 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      // Just for the development purposes
+      email: "kingharshit@gmail.com",
+      password: "password",
     },
   });
 
@@ -98,7 +99,7 @@ export function LoginForm() {
               {isPending ? (
                 <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
               ) : (
-                "Sign In with Email"
+                "Login"
               )}
             </Button>
           </div>
