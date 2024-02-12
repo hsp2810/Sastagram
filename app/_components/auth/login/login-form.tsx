@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/form";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
+import Socials from "../signup/socials";
 
 export function LoginForm() {
   const [error, setError] = useState<string | undefined>("");
@@ -42,8 +43,10 @@ export function LoginForm() {
 
     startTransition(() => {
       actionLogin(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        if (data) {
+          setError(data.error);
+          setSuccess(data.success);
+        }
       });
     });
   };
@@ -116,18 +119,7 @@ export function LoginForm() {
           </span>
         </div>
       </div>
-      <div className='flex gap-2'>
-        <Button variant='outline' type='button' className='w-full'>
-          {/* {isLoading ? (
-          <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
-        ) : (
-        )}{" "} */}
-          <Icons.google className='mr-2 h-4 w-4' />
-        </Button>
-        <Button variant='outline' type='submit' className='w-full'>
-          <Icons.gitHub className='mr-2 h-4 w-4' />
-        </Button>
-      </div>
+      <Socials />
     </div>
   );
 }

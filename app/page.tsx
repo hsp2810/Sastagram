@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import AuthProvider from "./_components/auth/auth-provider";
 
 export const metadata: Metadata = {
-  title: "Authentication",
+  title: "SastaGram-Authentication",
   description: "Authentication forms built using the components.",
 };
 
