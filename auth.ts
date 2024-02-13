@@ -19,6 +19,22 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/",
+    error: "/auth-error",
+  },
+
+  events: {
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
+
   callbacks: {
     // async signIn({ user }) {
     //   const existingUser = await prisma.user.findUnique({

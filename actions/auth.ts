@@ -29,8 +29,8 @@ export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
         case "CredentialsSignin":
           return { error: "Invalid Credentials!" };
 
-        // case "AccountNotLinked":
-        //   return { error: "Email not verified yet! Unable to Login!" };
+        // case "OAuthAccountNotLinked":
+        //   return { error: "Email already in use with different provider!" };
 
         default:
           return { error: "Something went wrong!" };
@@ -72,5 +72,12 @@ export const actionRegister = async (
   });
   if (!newUser) return { error: "Something went wrong in creating account!" };
 
-  return { success: "Account created successfully!" };
+  // Either you can directly redirect the user to the Home page after the successful signup or make them login again with the credentials they use for the signup
+  await signIn("credentials", {
+    email,
+    password,
+    redirectTo: DEFAULT_LOGIN_REDIRECT,
+  });
+
+  // return { success: "Account created successfully!" };
 };

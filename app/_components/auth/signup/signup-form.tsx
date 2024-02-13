@@ -44,8 +44,10 @@ export function SignupForm() {
 
     startTransition(() => {
       actionRegister(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        if (data) {
+          setError(data.error);
+          // setSuccess(data.success);
+        }
       });
     });
   };
