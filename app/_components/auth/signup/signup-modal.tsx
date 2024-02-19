@@ -1,6 +1,6 @@
 import { SignupForm } from "./signup-form";
 import Link from "next/link";
-import Portfolio from "../../utils/components/portfolio";
+import Portfolio from "../../utils/portfolio";
 
 export default function SignupModal() {
   return (

@@ -31,10 +31,10 @@ export function SignupForm() {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      username: "",
-      name: "",
-      email: "",
-      password: "",
+      username: "harshitpremium",
+      name: "Harshit Premium",
+      email: "hsp28102002@gmail.com",
+      password: "password",
     },
   });
 
@@ -46,7 +46,7 @@ export function SignupForm() {
       actionRegister(values).then((data) => {
         if (data) {
           setError(data.error);
-          // setSuccess(data.success);
+          setSuccess(data.success);
         }
       });
     });

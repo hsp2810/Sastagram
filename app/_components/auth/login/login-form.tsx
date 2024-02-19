@@ -23,6 +23,7 @@ import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import Socials from "../signup/socials";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export function LoginForm() {
   const params = useSearchParams();
@@ -38,7 +39,7 @@ export function LoginForm() {
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       // Just for the development purposes
-      email: "kingharshit@gmail.com",
+      email: "hsp28102002@gmail.com",
       password: "password",
     },
   });
@@ -110,6 +111,11 @@ export function LoginForm() {
               ) : (
                 "Login"
               )}
+            </Button>
+            <Button size={"sm"} variant={"link"}>
+              <Link href={"/reset-password"} className='font-normal'>
+                Forgot password?
+              </Link>
             </Button>
           </div>
         </form>

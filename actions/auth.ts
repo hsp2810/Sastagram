@@ -7,6 +7,9 @@ import { prisma } from "@/lib/prisma";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerficationEmail } from "@/lib/email";
+import { verify } from "crypto";
 
 export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -16,6 +19,24 @@ export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   const { email, password } = validatedFields.data;
+
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return { error: "Invalid Credentials!" };
+  }
+
+  if (!existingUser.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      existingUser.email
+    );
+
+    await sendVerficationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+
+    return { success: "Confirmation email sent!" };
+  }
 
   try {
     await signIn("credentials", {
@@ -29,7 +50,7 @@ export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
         case "CredentialsSignin":
           return { error: "Invalid Credentials!" };
 
-        // case "OAuthAccountNotLinked":
+        // case "":
         //   return { error: "Email already in use with different provider!" };
 
         default:
@@ -72,12 +93,9 @@ export const actionRegister = async (
   });
   if (!newUser) return { error: "Something went wrong in creating account!" };
 
-  // Either you can directly redirect the user to the Home page after the successful signup or make them login again with the credentials they use for the signup
-  await signIn("credentials", {
-    email,
-    password,
-    redirectTo: DEFAULT_LOGIN_REDIRECT,
-  });
+  const verificationToken = await generateVerificationToken(email);
 
-  // return { success: "Account created successfully!" };
+  await sendVerficationEmail(verificationToken.email, verificationToken.token);
+
+  return { success: "Confirmation email sent!" };
 };
