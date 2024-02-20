@@ -13,10 +13,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className='flex gap-1'>
+    <main className='flex'>
       <Sidebar />
-      <Separator orientation='vertical' className='bg-[#29151e]' />
-      <div className='flex flex-[85]'>{children}</div>
+      <div className='flex flex-1 my-4 ml-[19%]'>{children}</div>
     </main>
   );
 }

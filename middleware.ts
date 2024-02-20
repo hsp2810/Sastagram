@@ -29,7 +29,7 @@ export default auth((req) => {
     return;
   }
 
-  if (privateRoutes.includes(currentLocation)) {
+  if (privateRoutes.includes(currentLocation.slice(0, 5))) {
     if (!isLoggedIn) {
       return NextResponse.redirect(new URL("/", req.url));
     }

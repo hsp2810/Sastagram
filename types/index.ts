@@ -6,3 +6,13 @@ export interface SidebarLink {
   variant: "default" | "ghost";
   href: string;
 }
+
+/*
+
+model Story
+  id
+  uploader User
+  content String: Link where the photo or the video is stored in the Cloudinary
+  uploadedTime Datetime
+  
+*/

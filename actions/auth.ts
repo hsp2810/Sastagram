@@ -1,6 +1,6 @@
 "use server";
 
-import { LoginSchema, RegisterSchema } from "@/schemas";
+import { Gender, LoginSchema, RegisterSchema } from "@/schemas";
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -9,7 +9,6 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerficationEmail } from "@/lib/email";
-import { verify } from "crypto";
 
 export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -73,7 +72,7 @@ export const actionRegister = async (
     return { error: "Invalid Fields!" };
   }
 
-  const { username, name, email, password } = validatedFields.data;
+  const { username, name, email, password, gender } = validatedFields.data;
 
   const userExist = await prisma.user.findUnique({
     where: { email },
@@ -89,6 +88,7 @@ export const actionRegister = async (
       email,
       emailVerified: null,
       password: hashedPassword,
+      gender,
     },
   });
   if (!newUser) return { error: "Something went wrong in creating account!" };

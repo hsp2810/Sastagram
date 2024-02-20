@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { actionRegister } from "@/actions/auth";
 import { useForm } from "react-hook-form";
-import { RegisterSchema } from "@/schemas";
+import { Gender, RegisterSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import {
@@ -19,6 +19,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  SelectTrigger,
+  SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import Socials from "./socials";
@@ -35,6 +42,7 @@ export function SignupForm() {
       name: "Harshit Premium",
       email: "hsp28102002@gmail.com",
       password: "password",
+      gender: Gender.MALE,
     },
   });
 
@@ -42,6 +50,7 @@ export function SignupForm() {
     setError("");
     setSuccess("");
 
+    console.log(values);
     startTransition(() => {
       actionRegister(values).then((data) => {
         if (data) {
@@ -132,6 +141,38 @@ export function SignupForm() {
                         disabled={isPending}
                       />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='grid gap-3'>
+              <FormField
+                control={form.control}
+                name='gender'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Select a verified email to display' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value={Gender.MALE}>Male</SelectItem>
+                        <SelectItem value={Gender.FEMALE}>Female</SelectItem>
+                        <SelectItem value={Gender.TRANSGENDER}>
+                          Trans-gender
+                        </SelectItem>
+                        <SelectItem value={Gender.PREFER_NOT_TO_SAY}>
+                          Prefer not to say
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
