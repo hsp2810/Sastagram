@@ -8,15 +8,20 @@ declare module "next-auth" {
   interface Session {
     user: DefaultSession["user"] & {
       id: string;
-      role: Role;
-      account_type: UserAccountType;
-      username: string;
-      password: string;
-      bio: string;
-      name: string;
-      gender: Gender;
-      followers: number;
-      following: number;
+      username: string | null;
+      email: string | null;
+      image: string | null;
+      bio: string | null;
+      emailVerified: Date | null;
+      name: string | null;
+      password: string | null;
+      role: Role | null;
+      account_type: UserAccountType | null;
+      gender: Gender | null;
+      followers: string[] | [];
+      following: string[] | [];
+      follow_requests: string[] | [];
+      isVerified: boolean | null;
     };
   }
 }
@@ -46,12 +51,12 @@ export const {
   callbacks: {
     async signIn({ user, account }) {
       //Allow OAuth without email verification
-      if (account?.provider !== "credentials") return true;
+      if (account && account.provider !== "credentials") return true;
 
       const existingUser = await prisma.user.findUnique({
         where: { id: user.id },
       });
-      if (!existingUser?.emailVerified) return false;
+      if (existingUser && !existingUser.emailVerified) return false;
 
       // TODO: ADD 2FA check
 
@@ -68,8 +73,11 @@ export const {
         session.user.password = token.password as string;
         session.user.bio = token.bio as string;
         session.user.gender = token.gender as Gender;
-        session.user.followers = token.followers as number;
-        session.user.following = token.following as number;
+        session.user.followers = token.followers as string[];
+        session.user.following = token.following as string[];
+        session.user.emailVerified = token.emailVerified as Date;
+        session.user.follow_requests = token.follow_requests as string[];
+        session.user.isVerified = token.isVerified as boolean;
       }
 
       return session;
@@ -89,6 +97,9 @@ export const {
       token.gender = existingUser.gender;
       token.following = existingUser.following;
       token.followers = existingUser.followers;
+      token.emailVerified = existingUser.emailVerified;
+      token.follow_requests = existingUser.follow_requests;
+      token.isVerified = existingUser.isVerified;
       return token;
     },
   },

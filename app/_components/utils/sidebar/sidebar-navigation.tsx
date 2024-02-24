@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { navLinks } from "@/data/sidebar-links";
-import { SidebarLink } from "@/types";
 
 export function SidebarNavigation() {
   const [links, setLinks] = useState<any[]>(navLinks);

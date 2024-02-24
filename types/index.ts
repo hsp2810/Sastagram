@@ -7,6 +7,13 @@ export interface SidebarLink {
   href: string;
 }
 
+export type FollowStatus =
+  | "Follow"
+  | "Following"
+  | "Requested"
+  | "Follow back"
+  | "None";
+
 /*
 
 model Story

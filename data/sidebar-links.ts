@@ -1,4 +1,4 @@
-import { Search, Send, Home, PlusSquare, Play } from "lucide-react";
+import { Search, Send, Home, PlusSquare, Play, Heart } from "lucide-react";
 
 export const navLinks = [
   {
@@ -24,6 +24,12 @@ export const navLinks = [
     icon: PlusSquare,
     variant: "ghost",
     href: "/home/create",
+  },
+  {
+    title: "Notifications",
+    icon: Heart,
+    variant: "ghost",
+    href: "/home/notifications",
   },
   {
     title: "Chats",

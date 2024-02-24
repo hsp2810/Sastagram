@@ -4,7 +4,7 @@ import { Gender, LoginSchema, RegisterSchema } from "@/schemas";
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { generateVerificationToken } from "@/lib/tokens";
@@ -98,4 +98,8 @@ export const actionRegister = async (
   await sendVerficationEmail(verificationToken.email, verificationToken.token);
 
   return { success: "Confirmation email sent!" };
+};
+
+export const actionLogout = async () => {
+  await signOut();
 };

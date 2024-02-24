@@ -11,21 +11,23 @@ datasource db {
 }
 
 model User {
-  id            String           @id @default(auto()) @map("_id") @db.ObjectId
-  username      String?
-  email         String?          @unique
-  image         String?
-  bio           String?
-  emailVerified DateTime?
-  name          String?
-  password      String?
-  role          Role?            @default(USER)
-  account_type  UserAccountType? @default(PUBLIC)
-  accounts      Account[]
-  followers     Int?             @default(0)
-  following     Int?             @default(0)
-  Story         Story[]
-  gender        Gender?          @default(PREFER_NOT_TO_SAY)
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  username        String?
+  email           String?          @unique
+  image           String?
+  bio             String?          @default("")
+  emailVerified   DateTime?
+  name            String?
+  password        String?
+  role            Role?            @default(USER)
+  account_type    UserAccountType? @default(PUBLIC)
+  accounts        Account[]
+  followers       String[]         @default([])
+  following       String[]         @default([])
+  follow_requests String[]         @default([])
+  Story           Story[]
+  gender          Gender?          @default(UNSET)
+  isVerified      Boolean?         @default(false)
 }
 
 model Account {
@@ -76,6 +78,7 @@ enum UserAccountType {
 }
 
 enum Gender {
+  UNSET
   MALE
   FEMALE
   TRANSGENDER

@@ -152,7 +152,7 @@ export function SignupForm() {
                 name='gender'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Gender</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}

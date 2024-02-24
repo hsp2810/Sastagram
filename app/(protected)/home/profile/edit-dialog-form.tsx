@@ -122,7 +122,7 @@ export default function EditDialogForm({ user }: { user: User }) {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Select a verified email to display' />
+                          <SelectValue placeholder='Select your gender' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
