@@ -1,18 +1,18 @@
-import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { EditDialog } from "./edit-dialog";
-import Image from "next/image";
 import PostPreviewGrid from "@/app/_components/posts/post-grids/post-preview-grid";
 import { User, UserAccountType } from "@prisma/client";
 import { LockKeyhole } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { checkFollowReqStatus } from "@/data/userdb";
+import { checkFollowReqStatus } from "@/data/followdb";
 import { auth } from "@/auth";
 import FollowButton from "./follow-button";
 import AvatarProvider from "@/app/_components/utils/avatar-provider";
 import VerifiedBadgeProvider from "./verified-badge-provider";
 import GenderAvatarProvider from "@/app/_components/utils/gender-avatar-provider";
 import { FollowStatus } from "@/types";
+import FollowingModal from "./following-modal";
+import FollowerModal from "./follower-modal";
 
 interface PageProps {
   user: User | null;
@@ -22,6 +22,10 @@ interface PageProps {
 export default async function UserProfile({ user, isLoggedIn }: PageProps) {
   const session = await auth();
   const loggedInUser = session?.user;
+
+  if (user && user.id === loggedInUser?.id) {
+    isLoggedIn = true;
+  }
 
   let followStatus: FollowStatus = "None";
   if (loggedInUser && user) {
@@ -34,7 +38,7 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
     <main className='flex flex-col w-full m-auto'>
       <section className='flex w-full justify-center items-start my-10'>
         <div className='flex items-start space-x-10 min-w-lg'>
-          <AvatarProvider />
+          <AvatarProvider height='20' width='20' />
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-5'>
               <div className='flex gap-1 items-center'>
@@ -45,19 +49,14 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
             </div>
             <div className='flex items-center'>
               <div className='mr-2'>
-                {/* 0 should be replaced with user.posts: number */}
                 <span className='font-bold'>0</span> posts
               </div>
-              <Separator orientation='vertical' className='bg-white' />
-              <Link href={"#"} className='mx-2'>
-                <span className='font-bold'>{user.followers.length}</span>{" "}
-                followers
-              </Link>
-              <Separator orientation='vertical' className='bg-white' />
-              <Link href={"#"} className='mx-2'>
-                <span className='font-bold'>{user.following.length}</span>{" "}
-                following
-              </Link>
+              <FollowerModal
+                user={user}
+                followersId={user.followers}
+                isLoggedIn={isLoggedIn}
+              />
+              <FollowingModal user={user} followingId={user.following} />
             </div>
             <div className='flex gap-2 items-center'>
               <p className='font-bold text-2xl'>{user.name}</p>

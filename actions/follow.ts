@@ -2,31 +2,27 @@
 
 import {
   deleteFollowRequest,
-  getUserById,
+  removeFollower,
   sendFollowRequest,
-  setFollowers,
   setFollowing,
   setUnFollowing,
-} from "@/data/userdb";
+} from "@/data/followdb";
+import { getUserById } from "@/data/userdb";
+import { FollowStatus } from "@/types";
 import { User, UserAccountType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export const actionSendFollowRequest = async (formdata: FormData) => {
-  const receiverId = formdata.get("sendTo");
-  const loggedInUserId = formdata.get("loggedInUserId");
-  const currentFollowStatus = formdata.get("followStatus");
-  if (!receiverId || !currentFollowStatus || !loggedInUserId)
+export const actionSendFollowRequest = async (
+  loggedInUser: User,
+  otherUser: User,
+  followStatus: FollowStatus
+) => {
+  if (!loggedInUser || !otherUser || !followStatus)
     return { error: "Insufficient Data" };
-
-  const loggedInUser = await getUserById(loggedInUserId as string);
-  if (!loggedInUser) return { error: "Invalid User" };
-  const otherUser = await getUserById(receiverId as string);
-  if (!otherUser) return { error: "Invalid User" };
 
   const isPrivate = otherUser.account_type === UserAccountType.PRIVATE;
   const isPublic = otherUser.account_type === UserAccountType.PUBLIC;
-  const isNoneOrFollow =
-    currentFollowStatus === "None" || currentFollowStatus === "Follow";
+  const isNoneOrFollow = followStatus === "None" || followStatus === "Follow";
   //First - Private
   if (isNoneOrFollow && isPrivate) {
     const res = await sendFollowRequest(loggedInUser, otherUser);
@@ -45,7 +41,7 @@ export const actionSendFollowRequest = async (formdata: FormData) => {
     return { success: `Started following ${otherUser.name}` };
   }
 
-  if (currentFollowStatus === "Following") {
+  if (followStatus === "Following") {
     const res = await setUnFollowing(loggedInUser, otherUser);
     if (!res) return { error: "Some error occured! Try again later" };
 
@@ -53,7 +49,7 @@ export const actionSendFollowRequest = async (formdata: FormData) => {
     return { success: `Unfollowed ${otherUser.name}` };
   }
 
-  if (currentFollowStatus === "Follow back") {
+  if (followStatus === "Follow back") {
     if (isPrivate) {
       const res = await sendFollowRequest(loggedInUser, otherUser);
       if (!res) return { error: "Unable to send follow requests" };
@@ -64,15 +60,12 @@ export const actionSendFollowRequest = async (formdata: FormData) => {
       const res = await setFollowing(loggedInUser, otherUser);
       if (!res) return { error: "Some error occured! Try again later" };
 
-      const res1 = await setFollowers(loggedInUser, otherUser);
-      if (!res1) return { error: "Some error occured! Try again later" };
-
       revalidatePath(`/home/users/${otherUser.id}`);
       return { success: `Started following ${otherUser.name}` };
     }
   }
 
-  if (currentFollowStatus === "Requested") {
+  if (followStatus === "Requested") {
     const res = await deleteFollowRequest(loggedInUser, otherUser);
     if (!res) return { error: "Some error occured! Try again later" };
     revalidatePath(`/home/users/${otherUser.id}`);
@@ -89,4 +82,32 @@ export const actionSetUnfollowClient = async (
 
   revalidatePath(`/home/users/${otherUser.id}`);
   return { success: `Unfollowed ${otherUser.name}` };
+};
+
+export const actionHandleFollowRequest = async (
+  loggedInUser: User,
+  otherUser: User,
+  action: "confirm" | "delete"
+) => {
+  const res = await deleteFollowRequest(otherUser, loggedInUser);
+  if (!res) return { error: "There are no follow requests" };
+
+  if (action === "confirm") {
+    const res1 = await setFollowing(otherUser, loggedInUser);
+    if (!res1) return { error: "Some error at following" };
+  }
+
+  revalidatePath(`/home/notifications`);
+  return { success: `Follow Request ${action}ed` };
+};
+
+export const actionRemoveFollower = async (
+  loggedInUser: User,
+  otherUser: User
+) => {
+  const res = await removeFollower(loggedInUser, otherUser);
+  if (!res) return { error: "There are no follow requests" };
+
+  revalidatePath(`/home/notifications`);
+  return { success: `Remove Follower ${otherUser}` };
 };

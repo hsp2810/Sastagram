@@ -1,9 +1,12 @@
+"use client";
+
 import { actionSendFollowRequest } from "@/actions/follow";
 import { Button } from "@/components/ui/button";
 import { FollowStatus } from "@/types";
 import { User } from "@prisma/client";
-import React from "react";
+import React, { useTransition } from "react";
 import FollowingClientBtn from "./following-client-btn";
+import { Icons } from "@/app/_components/utils/icons";
 
 interface PageProps {
   user: User;
@@ -16,17 +19,29 @@ export default function FollowButton({
   loggedInUser,
   followStatus,
 }: PageProps) {
+  const [isPending, startTransition] = useTransition();
+
+  const handleClick = () => {
+    startTransition(() => {
+      actionSendFollowRequest(loggedInUser, user, followStatus);
+    });
+  };
+
   return (
-    <>
+    <div>
       {!(followStatus === "Following" && user.account_type === "PRIVATE") ? (
-        <form action={actionSendFollowRequest}>
-          <input type='hidden' name='sendTo' value={user.id} />
-          <input type='hidden' name='loggedInUserId' value={loggedInUser.id} />
-          <input type='hidden' name='followStatus' value={followStatus} />
-          <Button variant={"default"} className='w-full'>
-            {followStatus}
-          </Button>
-        </form>
+        <Button
+          variant={"default"}
+          className='w-full'
+          onClick={handleClick}
+          disabled={isPending}
+        >
+          {isPending ? (
+            <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+          ) : (
+            <>{followStatus}</>
+          )}
+        </Button>
       ) : (
         <FollowingClientBtn
           followStatus={followStatus}
@@ -34,6 +49,6 @@ export default function FollowButton({
           otherUser={user}
         />
       )}
-    </>
+    </div>
   );
 }

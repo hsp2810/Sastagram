@@ -30,6 +30,7 @@ export const navLinks = [
     icon: Heart,
     variant: "ghost",
     href: "/home/notifications",
+    hasBadge: true,
   },
   {
     title: "Chats",

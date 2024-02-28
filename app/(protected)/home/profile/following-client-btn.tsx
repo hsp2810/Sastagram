@@ -1,9 +1,12 @@
 "use client";
 
 import { actionSetUnfollowClient } from "@/actions/follow";
+import { Icons } from "@/app/_components/utils/icons";
 import { Button } from "@/components/ui/button";
 import { FollowStatus } from "@/types";
 import { User } from "@prisma/client";
+import { useEffect, useState, useTransition } from "react";
+import UnfollowAlert from "./alert-unfollow";
 
 interface PageProps {
   loggedInUser: User;
@@ -16,20 +19,43 @@ export default function FollowingClientBtn({
   otherUser,
   followStatus,
 }: PageProps) {
+  const [isPending, startTransition] = useTransition();
+  const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
+  const [approveUnfollow, setApproveUnfollow] = useState<boolean>(false);
+
   const handleClick = async (e: any) => {
     e.preventDefault();
-    const response = window.confirm(
-      "If you change your mind, you will have to request to follow //username again."
-    );
-
-    if (!response) return;
-
-    await actionSetUnfollowClient(loggedInUser, otherUser);
+    setShowDeleteDialog(true);
   };
 
+  useEffect(() => {
+    if (approveUnfollow) {
+      startTransition(() => {
+        actionSetUnfollowClient(loggedInUser, otherUser);
+      });
+    }
+  }, [showDeleteDialog]);
+
   return (
-    <Button variant={"default"} className='w-full' onClick={handleClick}>
-      {followStatus}
-    </Button>
+    <div>
+      <Button
+        variant={"default"}
+        className='w-full'
+        onClick={handleClick}
+        disabled={isPending}
+      >
+        {isPending ? (
+          <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
+        ) : (
+          <>{followStatus}</>
+        )}
+      </Button>
+      <UnfollowAlert
+        showDeleteDialog={showDeleteDialog}
+        setShowDeleteDialog={setShowDeleteDialog}
+        setApproveUnfollow={setApproveUnfollow}
+        otherUser={otherUser}
+      />
+    </div>
   );
 }

@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { navLinks } from "@/data/sidebar-links";
+import { Badge } from "@/components/ui/badge";
 
-export function SidebarNavigation() {
+export function SidebarNavigation({
+  notifications,
+}: {
+  notifications: number;
+}) {
   const [links, setLinks] = useState<any[]>(navLinks);
   const router = useRouter();
 
@@ -40,6 +44,11 @@ export function SidebarNavigation() {
         >
           <link.icon className='mr-2 h-4 w-4' />
           {link.title}
+          {link.hasBadge && notifications !== 0 && (
+            <Badge variant='destructive' className='ml-1 rounded-sm px-2 py-1'>
+              {notifications}
+            </Badge>
+          )}
         </Button>
       ))}
     </nav>
