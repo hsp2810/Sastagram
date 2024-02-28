@@ -11,7 +11,7 @@ interface PageProps {
 export default function SearchUserCard({ user, highlight }: PageProps) {
   return (
     <Link
-      href={`/home/users/${user.id}`}
+      href={`/home/users/${user.username}`}
       className='flex items-center justify-between '
     >
       <div className='flex items-center p-2 transition rounded-sm cursor-pointer hover:bg-accent hover:text-accent-foreground w-full mr-1'>

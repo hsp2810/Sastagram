@@ -1,16 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import UserProfile from "../../profile/user-profile";
 import { User } from "@prisma/client";
+import { getUserByUsername } from "@/data/userdb";
 
 interface PageProps {
   params: {
-    id: string;
+    slug: string;
   };
 }
 
 export default async function UserPage({ params }: PageProps) {
-  const id = params.id;
-  const user: User | null = await prisma.user.findUnique({ where: { id } });
+  const username = params.slug;
+  const user: User | null = await getUserByUsername(username);
 
   return <UserProfile user={user} isLoggedIn={false} />;
 }

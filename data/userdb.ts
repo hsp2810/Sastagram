@@ -1,10 +1,19 @@
 import { prisma } from "@/lib/prisma";
-import { FollowStatus } from "@/types";
-import { User, UserAccountType } from "@prisma/client";
+import { UserAccountType } from "@prisma/client";
 
 export const getUserById = async (id: string) => {
   try {
     return await prisma.user.findUnique({ where: { id } });
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getUserByUsername = async (username: string) => {
+  try {
+    return await prisma.user.findUnique({
+      where: { username: username as string },
+    });
   } catch (error) {
     return null;
   }
