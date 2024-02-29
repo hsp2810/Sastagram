@@ -1,8 +1,8 @@
 import Sidebar from "@/app/_components/utils/sidebar/sidebar";
 import type { Metadata } from "next";
-import { Separator } from "@/components/ui/separator";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "SastaGram-Home",
@@ -20,6 +20,7 @@ export default function RootLayout({
       <div className='flex flex-1 my-4 ml-[19%]'>
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </div>
+      <Toaster />
     </main>
   );
 }

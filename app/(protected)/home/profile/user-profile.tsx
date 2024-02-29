@@ -37,7 +37,7 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
   return (
     <main className='flex flex-col w-full m-auto'>
       <section className='flex w-full justify-center items-start my-10'>
-        <div className='flex items-start space-x-10 min-w-lg'>
+        <div className='flex items-start space-x-5 min-w-lg'>
           <AvatarProvider height='20' width='20' />
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-5'>

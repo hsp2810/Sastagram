@@ -15,7 +15,6 @@ export const sendFollowRequest = async (sender: User, receiver: User) => {
   }
 };
 
-// receiver: req logg-receiver
 export const deleteFollowRequest = async (sender: User, receiver: User) => {
   try {
     if (receiver.follow_requests.length === 0) return false;
