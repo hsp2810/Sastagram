@@ -5,6 +5,7 @@ export interface SidebarLink {
   icon: LucideIcon;
   variant: "default" | "ghost";
   href: string;
+  hasBadge: boolean;
 }
 
 export type FollowStatus =

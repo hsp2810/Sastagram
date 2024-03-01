@@ -1,7 +1,7 @@
 "use client";
 
 import { actionHandleFollowRequest } from "@/actions/follow";
-import AvatarProvider from "@/app/_components/utils/avatar-provider";
+import AvatarProvider from "@/app/_components/utils/providers/avatar-provider";
 import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
 import Link from "next/link";

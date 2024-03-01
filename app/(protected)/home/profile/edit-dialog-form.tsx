@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import FormError from "@/app/_components/auth/form-error";
 import FormSuccess from "@/app/_components/auth/form-success";
 import { Button } from "@/components/ui/button";
-import { Icons } from "@/app/_components/utils/icons";
+import { Icons } from "@/app/_components/utils/providers/icons";
 import { actionEditUserProfile } from "@/actions/user";
 import { Textarea } from "@/components/ui/textarea";
 import {

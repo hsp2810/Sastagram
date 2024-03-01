@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import SidebarLogout from "./sidebar-logout";
 import { Settings } from "lucide-react";
-import AvatarProvider from "../avatar-provider";
+import AvatarProvider from "../providers/avatar-provider";
 
 export default function SidebarFooter({ user }: { user: any }) {
   return (

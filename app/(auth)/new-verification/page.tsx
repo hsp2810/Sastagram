@@ -4,7 +4,7 @@ import { newVerification } from "@/actions/new-verification";
 import ErrorCard from "@/app/_components/auth/error-card";
 import FormError from "@/app/_components/auth/form-error";
 import FormSuccess from "@/app/_components/auth/form-success";
-import { Icons } from "@/app/_components/utils/icons";
+import { Icons } from "@/app/_components/utils/providers/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

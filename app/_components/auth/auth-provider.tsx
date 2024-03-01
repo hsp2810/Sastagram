@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import LoginModal from "./login/login-modal";
 import SignupModal from "./signup/signup-modal";
-import LogoProvider from "../utils/logo-provider";
+import LogoProvider from "../utils/providers/logo-provider";
 
 export default function AuthProvider() {
   const [showLogin, setShowLogin] = useState<boolean>(true);

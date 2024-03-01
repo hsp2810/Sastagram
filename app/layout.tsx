@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fira_Sans } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./_components/utils/theme-provider";
+import { ThemeProvider } from "./_components/utils/providers/theme-provider";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],

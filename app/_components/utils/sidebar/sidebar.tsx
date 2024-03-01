@@ -1,4 +1,4 @@
-import LogoProvider from "../logo-provider";
+import LogoProvider from "../providers/logo-provider";
 import { SidebarNavigation } from "./sidebar-navigation";
 import SidebarFooter from "./sidebar-footer";
 import { Separator } from "@/components/ui/separator";

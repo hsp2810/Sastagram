@@ -3,7 +3,7 @@
 import * as z from "zod";
 
 import { cn } from "@/lib/utils";
-import { Icons } from "@/app/_components/utils/icons";
+import { Icons } from "@/app/_components/utils/providers/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { actionLogin } from "@/actions/auth";

@@ -1,7 +1,7 @@
 "use client";
 
 import { actionSetUnfollowClient } from "@/actions/follow";
-import { Icons } from "@/app/_components/utils/icons";
+import { Icons } from "@/app/_components/utils/providers/icons";
 import { Button } from "@/components/ui/button";
 import { FollowStatus } from "@/types";
 import { User } from "@prisma/client";

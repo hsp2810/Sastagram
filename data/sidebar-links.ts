@@ -1,3 +1,4 @@
+import { buttonVariants } from "@/components/ui/button";
 import { Search, Send, Home, PlusSquare, Play, Heart } from "lucide-react";
 
 export const navLinks = [

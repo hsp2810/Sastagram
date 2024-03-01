@@ -9,7 +9,7 @@ import { FollowStatus } from "@/types";
 import { User } from "@prisma/client";
 import React, { useTransition } from "react";
 import FollowingClientBtn from "./following-client-btn";
-import { Icons } from "@/app/_components/utils/icons";
+import { Icons } from "@/app/_components/utils/providers/icons";
 
 interface PageProps {
   user: User;

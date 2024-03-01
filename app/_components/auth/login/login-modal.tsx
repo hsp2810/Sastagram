@@ -1,5 +1,5 @@
 import { LoginForm } from "./login-form";
-import Portfolio from "../../utils/portfolio";
+import Portfolio from "../../utils/providers/portfolio";
 
 export default function LoginModal() {
   return (

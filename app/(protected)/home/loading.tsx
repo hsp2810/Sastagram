@@ -1,4 +1,4 @@
-import { Icons } from "@/app/_components/utils/icons";
+import { Icons } from "@/app/_components/utils/providers/icons";
 import React from "react";
 
 export default function Loading() {
