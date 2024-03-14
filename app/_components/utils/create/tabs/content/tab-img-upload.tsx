@@ -1,39 +1,49 @@
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
 import { Icons } from "../../../providers/icons";
 import FileInput from "./file-input";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Trash, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 interface PageProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  uploadedFile: File | undefined;
+  setUploadedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
-export default function TabImgUpload({ setOpen }: PageProps) {
-  const [uploadedFile, setUploadedFile] = useState<File>();
+export default function TabImgUpload({
+  setOpen,
+  uploadedFile,
+  setUploadedFile,
+}: PageProps) {
+  const handleDeleteImage = async () => {
+    setUploadedFile(undefined);
+  };
 
   return (
     <main className='flex flex-col gap-4 items-center justify-center h-[80vh]'>
       {uploadedFile ? (
-        <>
+        <section className='flex flex-col gap-2'>
+          <h1 className='text-2xl'>Uploaded Image</h1>
+          <p className='text-xs font-light'>
+            Delete to upload another one or set a caption and other settings for
+            the post
+          </p>
           <Image
-            src={"/post-image.jpg"}
+            src={URL.createObjectURL(uploadedFile)}
             height={50}
             width={325}
-            alt='Uploaded Image'
-            className='rounded-md border-2'
+            alt='Image must be in a png/jpg/jpeg format'
+            className='rounded-md border-2 text-center w-full'
           />
           <Button
             variant={"destructive"}
             className='p-2'
-            onClick={() => {
-              setUploadedFile(undefined);
-            }}
+            onClick={handleDeleteImage}
           >
             <Trash2 />
           </Button>
-        </>
+        </section>
       ) : (
         <div className='flex flex-col gap-3 items-center'>
           <Icons.imgUpload />

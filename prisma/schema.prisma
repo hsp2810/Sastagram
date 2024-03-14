@@ -69,16 +69,14 @@ model Post {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
   uploader         User      @relation(fields: [userId], references: [id])
   sourceUrl        String
-  uploadedTime     DateTime
+  uploadedTime     DateTime? @default(now())
   caption          String?
   likes            Int?      @default(0)
   commentsDisabled Boolean?  @default(false)
   comments         Comment[]
-  expiresIn        DateTime
 
   //other
-  userId    String @db.ObjectId
-  commentId String @db.ObjectId
+  userId String @db.ObjectId
 }
 
 model Comment {

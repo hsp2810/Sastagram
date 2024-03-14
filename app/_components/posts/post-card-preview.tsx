@@ -6,11 +6,10 @@ import Image from "next/image";
 import { Heart, MessageCircle } from "lucide-react";
 
 interface PageProps {
-  likes: number;
-  comments: number;
+  post: any;
 }
 
-const PostCardPreview = ({ likes, comments }: PageProps) => {
+const PostCardPreview = ({ post }: PageProps) => {
   const [isHovered, setHovered] = useState(false);
 
   const handleHover = () => {
@@ -22,7 +21,7 @@ const PostCardPreview = ({ likes, comments }: PageProps) => {
   };
 
   return (
-    <Link href={""} className='relative h-full w-full'>
+    <Link href={`/home/posts/${post.id}`} className='relative h-full w-full'>
       <div
         className={`transition-transform h-full w-full`}
         onMouseEnter={handleHover}
@@ -42,11 +41,11 @@ const PostCardPreview = ({ likes, comments }: PageProps) => {
           >
             <p className='text-pink-300 flex flex-col items-center'>
               <Heart />
-              <span>{likes}</span>
+              <span>{post.likes}</span>
             </p>
             <p className='text-green-300 flex flex-col items-center'>
               <MessageCircle />
-              <span>{comments}</span>
+              <span>{post.comments.length}</span>
             </p>
           </div>
         )}

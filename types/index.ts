@@ -8,6 +8,13 @@ export interface SidebarLink {
   hasBadge: boolean;
 }
 
+export interface CloudinaryImage {
+  public_url: string;
+  secure_url: string;
+  signature: string;
+  public_id: string;
+}
+
 export type FollowStatus =
   | "Follow"
   | "Following"

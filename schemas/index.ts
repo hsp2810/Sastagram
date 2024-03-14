@@ -48,3 +48,11 @@ export const EditUserSchema = z.object({
 
   gender: z.nativeEnum(Gender),
 });
+
+export const CreatePostSchema = z.object({
+  caption: z.string().max(2000, {
+    message: "Caption should not be more than 2000 characters",
+  }),
+
+  disable_comments: z.boolean().default(false).optional(),
+});

@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { PlusSquare } from "lucide-react";
 import { CreateModalTabsMain } from "./create-modal-tabs-main";
+import { useState } from "react";
 
 export function CreateModalMain() {
   return (

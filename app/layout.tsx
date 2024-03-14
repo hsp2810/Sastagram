@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fira_Sans } from "next/font/google";
+import { Dosis, Fira_Sans, Quicksand } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./_components/utils/providers/theme-provider";
 

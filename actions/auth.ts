@@ -9,6 +9,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerficationEmail } from "@/lib/email";
+import { getUserByEmail } from "@/data/userdb";
 
 export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -19,7 +20,7 @@ export const actionLogin = async (values: z.infer<typeof LoginSchema>) => {
 
   const { email, password } = validatedFields.data;
 
-  const existingUser = await prisma.user.findUnique({ where: { email } });
+  const existingUser = await getUserByEmail(email);
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Invalid Credentials!" };
   }

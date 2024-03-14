@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 
 interface PageProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,11 +9,7 @@ interface PageProps {
   setUploadedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
-export default function FileInput({
-  setOpen,
-  uploadedFile,
-  setUploadedFile,
-}: PageProps) {
+export default function FileInput({ setOpen, setUploadedFile }: PageProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
@@ -22,20 +18,18 @@ export default function FileInput({
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const selectedFile = event.target.files && event.target.files[0];
 
     if (selectedFile) {
-      console.log("Selected file:", selectedFile);
       setUploadedFile(selectedFile);
-    }
-  };
-
-  useEffect(() => {
-    if (uploadedFile && uploadedFile.size > 0) {
+      // console.log(JSON.stringify(selectedFile));
+      // localStorage.setItem("file", JSON.stringify(selectedFile));
       setOpen(true);
     }
-  }, [uploadedFile]);
+  };
 
   return (
     <div className='flex items-center'>

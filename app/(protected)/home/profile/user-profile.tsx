@@ -23,6 +23,8 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
   const session = await auth();
   const loggedInUser = session?.user;
 
+  if (!loggedInUser) return <h1>Session Expired</h1>;
+
   if (user && user.id === loggedInUser?.id) {
     isLoggedIn = true;
   }
@@ -89,7 +91,7 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
             </p>
           </div>
         ) : (
-          <PostPreviewGrid />
+          <PostPreviewGrid loggedInUser={loggedInUser} />
         )}
       </section>
     </main>
