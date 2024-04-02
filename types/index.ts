@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import { LucideIcon } from "lucide-react";
 
 export interface SidebarLink {
@@ -31,3 +32,15 @@ model Story
   uploadedTime Datetime
   
 */
+
+export interface IComment {
+  id: string;
+  content: string;
+  comment_likes: number;
+  isPinned: boolean;
+  likes: string[];
+  postId: string;
+  userId: string;
+  commentBy: User;
+  uploadedTime: Date;
+}

@@ -40,7 +40,7 @@ export default async function FollowerModal({
         <span className='font-bold'>{followers.length}</span> followers
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className='w-full'>
           <DialogTitle className='text-xl'>
             @{user.username}'s followers on Sastagram
           </DialogTitle>
@@ -87,7 +87,7 @@ const FollowerCard = ({
     <div className='flex items-center justify-between'>
       <div className='flex items-center transition rounded-sm cursor-pointer w-full mr-1'>
         <AvatarProvider height='10' width='10' />
-        <Link href={`/home/users/${follower.id}`} className='block ml-2'>
+        <Link href={`/home/users/${follower.username}`} className='block ml-2'>
           <p className='text-sm font-medium text-white leading-none'>
             {follower.name}
           </p>

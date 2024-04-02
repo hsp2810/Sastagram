@@ -168,6 +168,69 @@ export const Icons = {
       />
     </svg>
   ),
+
+  close: (props: IconProps) => (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      className='h-6 w-6 transition-transform duration-300 transform rotate-90'
+      fill='none'
+      viewBox='0 0 24 24'
+      stroke='currentColor'
+      {...props}
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth={2}
+        d='M6 18L18 6M6 6l12 12'
+      />
+    </svg>
+  ),
+
+  outlineHeart: (props: IconProps) => (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      stroke-width='2'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+      {...props}
+    >
+      <path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'></path>
+    </svg>
+  ),
+
+  filledHeart: (props: IconProps) => (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 24 24'
+      fill='red'
+      {...props}
+    >
+      <path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'></path>
+    </svg>
+  ),
+
+  menu: (props: IconProps) => (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      className='h-6 w-6 transition-transform duration-300'
+      fill='none'
+      viewBox='0 0 24 24'
+      stroke='currentColor'
+      {...props}
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth={2}
+        d='M4 6h16M4 12h16m-7 6h7'
+      />
+    </svg>
+  ),
+
   spinner: (props: IconProps) => (
     <svg
       xmlns='http://www.w3.org/2000/svg'

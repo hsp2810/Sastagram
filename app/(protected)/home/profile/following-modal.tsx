@@ -35,7 +35,7 @@ export default async function FollowingModal({ user, followingId }: PageProps) {
         <span className='font-bold'>{followingAccounts.length}</span> following
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader>
+        <DialogHeader className='w-full'>
           <DialogTitle className='text-xl'>
             @{user.username} follows this accounts on Sastagram
           </DialogTitle>
@@ -76,7 +76,7 @@ const FollowingCard = ({ follower, loggedInUser }: FollowerCardProps) => {
     <div className='flex items-center justify-between'>
       <div className='flex items-center transition rounded-sm cursor-pointer w-full mr-1'>
         <AvatarProvider height='10' width='10' />
-        <Link href={`/home/users/${follower.id}`} className='block ml-2'>
+        <Link href={`/home/users/${follower.username}`} className='block ml-2'>
           <p className='text-sm font-medium text-white leading-none'>
             {follower.name}
           </p>

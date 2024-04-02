@@ -23,11 +23,19 @@ import FormError from "@/app/_components/auth/form-error";
 import FormSuccess from "@/app/_components/auth/form-success";
 import { useRouter } from "next/navigation";
 
+interface PageProps {
+  uploadedFile: File | undefined;
+  setUploadedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreateDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export default function TabSettingsForm({
   uploadedFile,
-}: {
-  uploadedFile: File | undefined;
-}) {
+  setUploadedFile,
+  setOpen,
+  setCreateDialogOpen,
+}: PageProps) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -54,14 +62,13 @@ export default function TabSettingsForm({
     startTransition(() => {
       actionCreatePost(formData, values).then((data) => {
         if (data) {
-          setError(data.error);
-          setSuccess(data.success);
-          router.push("/");
+          if (data.error) {
+            setError(data.error);
+          }
+          setCreateDialogOpen(false);
         }
       });
     });
-
-    //After successfull insertion delete it from localstorage
   };
 
   return (
@@ -122,8 +129,16 @@ export default function TabSettingsForm({
                 "Share"
               )}
             </Button>
-            {/* Later */}
-            <Button type='submit' variant={"destructive"} disabled={isPending}>
+
+            <Button
+              type='submit'
+              variant={"destructive"}
+              disabled={isPending}
+              onClick={() => {
+                setUploadedFile(undefined);
+                setOpen(false);
+              }}
+            >
               {isPending ? (
                 <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
               ) : (

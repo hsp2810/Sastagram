@@ -34,7 +34,7 @@ export default function TabImgUpload({
             height={50}
             width={325}
             alt='Image must be in a png/jpg/jpeg format'
-            className='rounded-md border-2 text-center w-full'
+            className='rounded-md border-2 text-center w-3/4'
           />
           <Button
             variant={"destructive"}

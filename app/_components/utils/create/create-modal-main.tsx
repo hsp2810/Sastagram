@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,8 +12,10 @@ import { CreateModalTabsMain } from "./create-modal-tabs-main";
 import { useState } from "react";
 
 export function CreateModalMain() {
+  const [createDialogOpen, setCreateDialogOpen] = useState<boolean>(false);
+
   return (
-    <Dialog>
+    <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
       <DialogTrigger asChild>
         <Button
           className='justify-start text-md font-normal w-full'
@@ -22,7 +26,7 @@ export function CreateModalMain() {
         </Button>
       </DialogTrigger>
       <DialogContent className='sm:max-w-lg'>
-        <CreateModalTabsMain />
+        <CreateModalTabsMain setCreateDialogOpen={setCreateDialogOpen} />
       </DialogContent>
     </Dialog>
   );

@@ -5,15 +5,13 @@ import TabImgUpload from "./content/tab-img-upload";
 import { useEffect, useState } from "react";
 import TabSettings from "./content/tab-settings";
 
-export default function TabsContainer() {
+interface PageProps {
+  setCreateDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function TabsContainer({ setCreateDialogOpen }: PageProps) {
   const [isOpen, setOpen] = useState<boolean>(false);
   const [uploadedFile, setUploadedFile] = useState<File>();
-
-  // useEffect(() => {
-  //   const file = localStorage.getItem("file");
-  //   if (!file) return;
-  //   setUploadedFile(JSON.parse(file));
-  // }, [isOpen]);
 
   return (
     <Tabs defaultValue='upload' className='w-full py-5'>
@@ -31,7 +29,12 @@ export default function TabsContainer() {
         />
       </TabsContent>
       <TabsContent value='information'>
-        <TabSettings uploadedFile={uploadedFile} />
+        <TabSettings
+          uploadedFile={uploadedFile}
+          setUploadedFile={setUploadedFile}
+          setOpen={setOpen}
+          setCreateDialogOpen={setCreateDialogOpen}
+        />
       </TabsContent>
     </Tabs>
   );

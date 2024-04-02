@@ -36,7 +36,7 @@ export default async function SettingsPage() {
           <InstagramLogoIcon className='inline' />
           <span className='ml-1'>Instagram</span>
         </a>{" "}
-        By Meta realistic
+        By Meta to make the app more realistic
       </footer>
     </main>
   );

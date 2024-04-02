@@ -28,11 +28,11 @@ const PostCardPreview = ({ post }: PageProps) => {
         onMouseLeave={handleLeave}
       >
         <Image
-          src={"/post-image.jpg"}
+          src={post.sourceUrl}
           height={300}
           width={300}
           alt=''
-          className='w-[300px] h-[300px] object-cover rounded-sm'
+          className='w-[350px] h-[300px] object-cover rounded-sm'
         />
         {isHovered && (
           <div
@@ -41,7 +41,7 @@ const PostCardPreview = ({ post }: PageProps) => {
           >
             <p className='text-pink-300 flex flex-col items-center'>
               <Heart />
-              <span>{post.likes}</span>
+              <span>{post.likes.length}</span>
             </p>
             <p className='text-green-300 flex flex-col items-center'>
               <MessageCircle />

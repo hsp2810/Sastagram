@@ -4,16 +4,19 @@ import { prisma } from "@/lib/prisma";
 import HeaderDisplay from "../../utils/others/header-display";
 
 interface PageProps {
-  loggedInUser: User;
+  user: User;
 }
 
-export default async function PostPreviewGrid({ loggedInUser }: PageProps) {
+export default async function PostPreviewGrid({ user }: PageProps) {
   const posts = await prisma.post.findMany({
     where: {
-      userId: loggedInUser.id,
+      userId: user.id,
     },
     include: {
       comments: true,
+    },
+    orderBy: {
+      uploadedTime: "desc",
     },
   });
   if (!posts || posts.length === 0)

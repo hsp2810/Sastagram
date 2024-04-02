@@ -60,7 +60,7 @@ export default function EditDialogForm({ user }: { user: User }) {
   };
 
   return (
-    <div className='grid gap-4 pt-4'>
+    <div className='grid gap-4 pt-4 w-full'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleEditUser)}>
           <div className='grid gap-4'>

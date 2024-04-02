@@ -7,6 +7,8 @@ import { upload } from "@/lib/cloudinary";
 import { CloudinaryImage } from "@/types";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import { deleteAllCommentsByPostId } from "@/data/commentsdb";
 
 export const actionCreatePost = async (
   formData: FormData,
@@ -44,4 +46,16 @@ export const actionCreatePost = async (
 
   revalidatePath("/profile");
   return { success: "Posted Sucessfully!" };
+};
+
+export const actionDeletePost = async (postId: string) => {
+  const deletedComments = await deleteAllCommentsByPostId(postId);
+  if (!deletedComments) return { error: "Something went wrong!" };
+
+  const deletedPost = await prisma.post.delete({
+    where: { id: postId },
+  });
+  if (!deletedPost) return { error: "Something went wrong!" };
+
+  redirect("/home/profile");
 };

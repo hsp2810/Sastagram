@@ -3,9 +3,17 @@ import TabSettingsForm from "./tab-settings-form";
 
 interface PageProps {
   uploadedFile: File | undefined;
+  setUploadedFile: React.Dispatch<React.SetStateAction<File | undefined>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreateDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function TabSettings({ uploadedFile }: PageProps) {
+export default function TabSettings({
+  uploadedFile,
+  setUploadedFile,
+  setOpen,
+  setCreateDialogOpen,
+}: PageProps) {
   return (
     <main className='h-[80vh] flex flex-col justify-center space-y-5 overflow-scroll p-2'>
       <h1 className='mt-5'>Image Preview</h1>
@@ -19,7 +27,12 @@ export default function TabSettings({ uploadedFile }: PageProps) {
         />
       )}
 
-      <TabSettingsForm uploadedFile={uploadedFile} />
+      <TabSettingsForm
+        uploadedFile={uploadedFile}
+        setUploadedFile={setUploadedFile}
+        setOpen={setOpen}
+        setCreateDialogOpen={setCreateDialogOpen}
+      />
     </main>
   );
 }

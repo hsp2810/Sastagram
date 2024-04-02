@@ -1,12 +1,14 @@
-import React from "react";
 import PostPageModal from "./post-page-modal";
-import Image from "next/image";
-import AvatarProvider from "@/app/_components/utils/providers/avatar-provider";
-import Link from "next/link";
 import HeaderDisplay from "@/app/_components/utils/others/header-display";
 import { getPostById } from "@/data/postdb";
 import { Separator } from "@/components/ui/separator";
 import { Bookmark, Heart, MessageCircle } from "lucide-react";
+import CommentForm from "./comment-form";
+import CommentsContainer from "./comments-container";
+import { getCommentsByPostId } from "@/data/commentsdb";
+import CaptionDisplay from "./caption-display";
+import PostModalHeader from "./post-modal-header";
+import { auth } from "@/auth";
 
 interface PageProps {
   params: {
@@ -15,36 +17,49 @@ interface PageProps {
 }
 
 export default async function PostPage({ params }: PageProps) {
+  const session = await auth();
+  if (!session) return <HeaderDisplay title='Session Expired' />;
+  const loggedInUser = session.user;
+
   const post = await getPostById(params.postid);
   if (!post) return <HeaderDisplay title='Session Expired' />;
+
+  const comments = await getCommentsByPostId(params.postid);
 
   return (
     <PostPageModal>
       <main className='flex'>
-        <section className='flex-[50]'>
-          <img src='/photo.jpg' alt='Photo' className='w-full' />
+        <section className='flex flex-[50] items-center'>
+          <div className='relative w-full h-full'>
+            <img
+              src={post.sourceUrl}
+              alt='Photo'
+              className='absolute inset-0 object-cover w-full h-full'
+            />
+          </div>
         </section>
         <section className='flex-[50] flex flex-col'>
-          <div className='flex items-center space-x-2 p-3'>
-            <AvatarProvider height='10' width='10' />
-            <Link href={"/"} className='text-sm font-medium leading-none'>
-              {post.uploader.username}
-            </Link>
-          </div>
+          <PostModalHeader
+            user={post.uploader}
+            post={post}
+            loggedInUser={loggedInUser}
+          />
           <Separator className='text-[#262626] h-[.5px]' />
           <div className='min-h-[70%]'>
-            <div className='flex items-center space-x-2 p-3'>
-              <AvatarProvider height='10' width='10' />
-              <div>
-                <div className='flex items-center gap-2'>
-                  <Link href={"/"} className='text-sm font-medium leading-none'>
-                    {post.uploader.username}
-                  </Link>
-                  <p className='font-light text-sm'>{post.caption}</p>
-                </div>
-                <p className='text-sm text-muted-foreground'>6w</p>
-              </div>
-            </div>
+            <CaptionDisplay
+              user={post.uploader}
+              caption={post.caption}
+              uploaded_time={post.uploadedTime}
+            />
+            {!comments ? (
+              <h1>Failed to load comments</h1>
+            ) : (
+              <CommentsContainer
+                comments={comments}
+                commentsDisabled={post.commentsDisabled}
+                post={post}
+              />
+            )}
           </div>
           <Separator className='text-[#262626] h-[1px]' />
           <section className='flex flex-col p-3 space-y-2'>
@@ -55,12 +70,19 @@ export default async function PostPage({ params }: PageProps) {
               </div>
               <Bookmark className='h-6 w-6 cursor-pointer hover:text-muted-foreground transition' />
             </div>
-            <div>
-              <p className='text-sm font-light'>Liked by abc14 and 30 others</p>
-            </div>
+            {post.likes.length > 0 && (
+              <div className='flex gap-16'>
+                <p className='text-sm font-light'>
+                  Liked by abc14 and 30 others
+                </p>
+              </div>
+            )}
           </section>
           <Separator className='text-[#262626] h-[1px]' />
-          <div></div>
+          <CommentForm
+            postId={post.id}
+            commentsDisabled={post.commentsDisabled}
+          />
         </section>
       </main>
     </PostPageModal>

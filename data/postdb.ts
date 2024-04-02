@@ -10,3 +10,13 @@ export const getPostById = async (id: string) => {
     return null;
   }
 };
+
+export const getPostsByUserId = async (id: string) => {
+  try {
+    return await prisma.post.findMany({
+      where: { userId: id },
+    });
+  } catch (error) {
+    return null;
+  }
+};

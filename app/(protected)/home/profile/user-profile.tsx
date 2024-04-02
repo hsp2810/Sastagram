@@ -13,6 +13,8 @@ import GenderAvatarProvider from "@/app/_components/utils/providers/gender-avata
 import { FollowStatus } from "@/types";
 import FollowingModal from "./following-modal";
 import FollowerModal from "./follower-modal";
+import { getPostsByUserId } from "@/data/postdb";
+import HeaderDisplay from "@/app/_components/utils/others/header-display";
 
 interface PageProps {
   user: User | null;
@@ -23,7 +25,7 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
   const session = await auth();
   const loggedInUser = session?.user;
 
-  if (!loggedInUser) return <h1>Session Expired</h1>;
+  if (!loggedInUser) return <HeaderDisplay title='Session Expired' />;
 
   if (user && user.id === loggedInUser?.id) {
     isLoggedIn = true;
@@ -34,13 +36,16 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
     followStatus = checkFollowReqStatus(loggedInUser, user);
   }
 
-  if (!user) return <h1>Error in loading the user</h1>;
+  if (!user) return <HeaderDisplay title='Error in loading the user' />;
+
+  const userPosts = await getPostsByUserId(user.id);
+  if (!userPosts) return <HeaderDisplay title='Error Occured' />;
 
   return (
     <main className='flex flex-col w-full m-auto'>
       <section className='flex w-full justify-center items-start my-10'>
         <div className='flex items-start space-x-5 min-w-lg'>
-          <AvatarProvider height='20' width='20' />
+          <AvatarProvider height='20' width='20' padding='p-16' />
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-5'>
               <div className='flex gap-1 items-center'>
@@ -51,7 +56,7 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
             </div>
             <div className='flex items-center'>
               <div className='mr-2'>
-                <span className='font-bold'>0</span> posts
+                <span className='font-bold'>{userPosts.length}</span> posts
               </div>
               <FollowerModal
                 user={user}
@@ -91,7 +96,7 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
             </p>
           </div>
         ) : (
-          <PostPreviewGrid loggedInUser={loggedInUser} />
+          <PostPreviewGrid user={user} />
         )}
       </section>
     </main>
