@@ -15,6 +15,7 @@ import { FollowStatus } from "@/types";
 import { User } from "@prisma/client";
 import Link from "next/link";
 import FollowButton from "./follow-button";
+import { FollowingCard } from "@/app/_components/users/following-card";
 
 interface PageProps {
   user: User;
@@ -48,7 +49,7 @@ export default async function FollowingModal({ user, followingId }: PageProps) {
                   return (
                     <FollowingCard
                       key={account.id}
-                      follower={account}
+                      following={account}
                       loggedInUser={loggedInUser}
                     />
                   );
@@ -61,37 +62,3 @@ export default async function FollowingModal({ user, followingId }: PageProps) {
     </Dialog>
   );
 }
-
-interface FollowerCardProps {
-  follower: User;
-  loggedInUser: User;
-}
-
-const FollowingCard = ({ follower, loggedInUser }: FollowerCardProps) => {
-  let followStatus: FollowStatus = "None";
-  if (loggedInUser && follower) {
-    followStatus = checkFollowReqStatus(loggedInUser, follower);
-  }
-  return (
-    <div className='flex items-center justify-between'>
-      <div className='flex items-center transition rounded-sm cursor-pointer w-full mr-1'>
-        <AvatarProvider height='10' width='10' />
-        <Link href={`/home/users/${follower.username}`} className='block ml-2'>
-          <p className='text-sm font-medium text-white leading-none'>
-            {follower.name}
-          </p>
-          <p className='text-sm font-light text-muted-foregroune'>
-            {follower.username}
-          </p>
-        </Link>
-      </div>
-      {!(loggedInUser.id === follower.id) && (
-        <FollowButton
-          user={follower}
-          loggedInUser={loggedInUser}
-          followStatus={followStatus}
-        />
-      )}
-    </div>
-  );
-};

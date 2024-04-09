@@ -1,14 +1,18 @@
 import PostPageModal from "./post-page-modal";
 import HeaderDisplay from "@/app/_components/utils/others/header-display";
-import { getPostById } from "@/data/postdb";
+import { getLikedByUsers, getPostById } from "@/data/postdb";
 import { Separator } from "@/components/ui/separator";
 import { Bookmark, Heart, MessageCircle } from "lucide-react";
-import CommentForm from "./comment-form";
-import CommentsContainer from "./comments-container";
+import CommentForm from "./comments/comment-form";
+import CommentsContainer from "./comments/comments-container";
 import { getCommentsByPostId } from "@/data/commentsdb";
 import CaptionDisplay from "./caption-display";
 import PostModalHeader from "./post-modal-header";
 import { auth } from "@/auth";
+import PostLike from "./likes/post-like";
+import PostLikeDisplay from "./likes/post-like-display";
+import { User } from "@prisma/client";
+import { Icons } from "@/app/_components/utils/providers/icons";
 
 interface PageProps {
   params: {
@@ -26,6 +30,8 @@ export default async function PostPage({ params }: PageProps) {
 
   const comments = await getCommentsByPostId(params.postid);
 
+  const likedByUsers = await getLikedByUsers(post.likes);
+
   return (
     <PostPageModal>
       <main className='flex'>
@@ -33,7 +39,11 @@ export default async function PostPage({ params }: PageProps) {
           <div className='relative w-full h-full'>
             <img
               src={post.sourceUrl}
-              alt='Photo'
+              alt={`${(
+                <span className='flex items-center justify-center'>
+                  <Icons.spinner className='h-4 w-4' />
+                </span>
+              )}`}
               className='absolute inset-0 object-cover w-full h-full'
             />
           </div>
@@ -65,17 +75,17 @@ export default async function PostPage({ params }: PageProps) {
           <section className='flex flex-col p-3 space-y-2'>
             <div className='flex justify-between items-center'>
               <div className='flex gap-3'>
-                <Heart className='h-6 w-6 cursor-pointer hover:text-muted-foreground transition' />
+                <PostLike post={post} loggedInUser={loggedInUser} />
                 <MessageCircle className='h-6 w-6 cursor-pointer hover:text-muted-foreground transition' />
               </div>
               <Bookmark className='h-6 w-6 cursor-pointer hover:text-muted-foreground transition' />
             </div>
-            {post.likes.length > 0 && (
-              <div className='flex gap-16'>
-                <p className='text-sm font-light'>
-                  Liked by abc14 and 30 others
-                </p>
-              </div>
+            {likedByUsers && likedByUsers.length > 0 && (
+              <PostLikeDisplay
+                post={post}
+                likedByUsers={likedByUsers}
+                loggedInUser={loggedInUser}
+              />
             )}
           </section>
           <Separator className='text-[#262626] h-[1px]' />

@@ -14,7 +14,7 @@ export default function CommentsContainer({
   post,
 }: PageProps) {
   return (
-    <main className='my-2 h-[55vh]'>
+    <main className='my-2 h-[50vh]'>
       <h1 className='ml-3'>Comments ({comments.length})</h1>
       {commentsDisabled ? (
         <h1 className='my-10 text-center font-light text-xs'>

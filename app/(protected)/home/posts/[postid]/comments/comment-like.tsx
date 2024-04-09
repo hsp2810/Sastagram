@@ -10,17 +10,12 @@ import { useEffect, useState } from "react";
 
 interface PageProps {
   loggedInUser: User;
-  likedBy: string[];
   comment: IComment;
 }
 
-export default function CommentLike({
-  loggedInUser,
-  likedBy,
-  comment,
-}: PageProps) {
+export default function CommentLike({ loggedInUser, comment }: PageProps) {
   const [isLiked, setIsLiked] = useState<boolean>(
-    likedBy.includes(loggedInUser.id)
+    comment.likes.includes(loggedInUser.id)
   );
 
   const toggleLike = async () => {
@@ -28,7 +23,7 @@ export default function CommentLike({
   };
 
   useEffect(() => {
-    if (likedBy.includes(loggedInUser.id)) {
+    if (comment.likes.includes(loggedInUser.id)) {
       setIsLiked(true);
     } else {
       setIsLiked(false);

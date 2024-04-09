@@ -19,7 +19,7 @@ export default function PostModalHeader({
   return (
     <div className='flex items-center justify-between p-3'>
       <div className='flex items-center space-x-2 '>
-        <AvatarProvider height='10' width='10' />
+        <AvatarProvider height='10' width='10' name={user.name} />
         <Link href={"/"} className='text-sm font-medium leading-none'>
           {user.username}
         </Link>

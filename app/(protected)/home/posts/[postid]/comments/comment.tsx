@@ -25,7 +25,7 @@ export default async function Comment({ comment, post }: PageProps) {
 
   return (
     <div className='flex items-start space-x-2 px-3 py-2'>
-      <AvatarProvider height='10' width='10' />
+      <AvatarProvider height='10' width='10' name={comment.commentBy.name} />
       <div className='w-full'>
         <div className='flex items-center justify-between'>
           <div className='flex flex-col gap-1'>
@@ -50,16 +50,17 @@ export default async function Comment({ comment, post }: PageProps) {
                   </span>
                 </div>
               )}
+              {comment.userId === post.userId && (
+                <div className='flex items-center gap-1'>
+                  <span className='text-xs text-muted-foreground'>Author</span>
+                </div>
+              )}
             </div>
             <p className='font-light text-sm'>{comment.content}</p>
           </div>
 
           <div className='flex gap-3 items-start justify-between mr-2'>
-            <CommentLike
-              loggedInUser={loggedInUser}
-              likedBy={comment.likes}
-              comment={comment}
-            />
+            <CommentLike loggedInUser={loggedInUser} comment={comment} />
 
             {(loggedInUser.id === comment.commentBy.id ||
               loggedInUser.id === post.userId) && (

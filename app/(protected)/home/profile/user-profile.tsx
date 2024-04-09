@@ -45,7 +45,12 @@ export default async function UserProfile({ user, isLoggedIn }: PageProps) {
     <main className='flex flex-col w-full m-auto'>
       <section className='flex w-full justify-center items-start my-10'>
         <div className='flex items-start space-x-5 min-w-lg'>
-          <AvatarProvider height='20' width='20' padding='p-16' />
+          <AvatarProvider
+            height='20'
+            width='20'
+            padding='p-16'
+            name={user.name}
+          />
           <div className='flex flex-col gap-4'>
             <div className='flex items-center gap-5'>
               <div className='flex gap-1 items-center'>

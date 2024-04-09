@@ -86,7 +86,7 @@ const FollowerCard = ({
   return (
     <div className='flex items-center justify-between'>
       <div className='flex items-center transition rounded-sm cursor-pointer w-full mr-1'>
-        <AvatarProvider height='10' width='10' />
+        <AvatarProvider height='10' width='10' name={follower.name} />
         <Link href={`/home/users/${follower.username}`} className='block ml-2'>
           <p className='text-sm font-medium text-white leading-none'>
             {follower.name}

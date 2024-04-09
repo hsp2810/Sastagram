@@ -9,6 +9,8 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { deleteAllCommentsByPostId } from "@/data/commentsdb";
+import { Post } from "@prisma/client";
+import { updatePost } from "@/data/postdb";
 
 export const actionCreatePost = async (
   formData: FormData,
@@ -58,4 +60,22 @@ export const actionDeletePost = async (postId: string) => {
   if (!deletedPost) return { error: "Something went wrong!" };
 
   redirect("/home/profile");
+};
+
+export const actionToggleLikePost = async (post: Post, userId: string) => {
+  let updatedLikes: string[];
+  if (post.likes.includes(userId)) {
+    updatedLikes = post.likes.filter((like) => {
+      return like !== userId;
+    });
+  } else {
+    updatedLikes = [...post.likes, userId];
+  }
+
+  const updatedComment = await updatePost(post.id, {
+    likes: updatedLikes,
+  });
+  if (!updatedComment) return { error: "Something went wrong!" };
+
+  revalidatePath(`/home/posts/${post.id}`);
 };

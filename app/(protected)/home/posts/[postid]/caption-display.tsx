@@ -19,7 +19,7 @@ export default function CaptionDisplay({
 }: PageProps) {
   return (
     <div className='flex items-center space-x-2 px-3 py-5'>
-      <AvatarProvider height='10' width='10' />
+      <AvatarProvider height='10' width='10' name={user.name} />
       <div>
         <div className='flex items-center gap-2'>
           <Link

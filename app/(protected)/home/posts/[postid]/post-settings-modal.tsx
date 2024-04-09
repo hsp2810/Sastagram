@@ -8,8 +8,8 @@ import { Icons } from "@/app/_components/utils/providers/icons";
 import { Button } from "@/components/ui/button";
 import { Post } from "@prisma/client";
 import React, { useState } from "react";
-import CommentsDeleteDialog from "./comments-delete-alert";
-import CommentsDeleteAlert from "./comments-delete-alert";
+import CommentsDeleteDialog from "./comments/comments-delete-alert";
+import CommentsDeleteAlert from "./comments/comments-delete-alert";
 import { actionDeletePost } from "@/actions/posts";
 
 export default function PostSettingsModal({ post }: { post: Post }) {
