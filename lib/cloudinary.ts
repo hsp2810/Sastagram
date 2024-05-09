@@ -1,7 +1,8 @@
-import { CloudinaryImage } from "@/types";
+import cloudinary from "cloudinary";
 
-// dipe21kuj
-const url = `https://api.cloudinary.com/v1_1/dipe21kuj/image`;
+const url = `https://api.cloudinary.com/v1_1/${
+  process.env.CLOUD_NAME as string
+}/image`;
 
 export const upload = async (formData: FormData) => {
   try {
@@ -9,37 +10,28 @@ export const upload = async (formData: FormData) => {
       method: "POST",
       body: formData,
     });
-
+    console.log("After upload");
     if (!response.ok) {
       return null;
     }
 
     return await response.json();
   } catch (error) {
+    console.log(error);
     return null;
   }
 };
 
-export const destroy = async (img: CloudinaryImage) => {
+export const destroy = async (public_id: string) => {
   try {
-    const response = await fetch(`${url}/destroy`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        signature: img.signature,
-        api_key: "194469519592376",
-        public_id: img.public_id,
-        timestamp: "173719931",
-      }),
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    return await response.json();
+    cloudinary.v2.uploader.destroy(
+      "sastagram/r7ihpdw2utdw0dxqnchv",
+      function (error, result) {
+        console.log(result, error);
+      }
+    );
+    // console.log("Result after deletion: ", result);
+    // return result;
   } catch (error) {
     return null;
   }

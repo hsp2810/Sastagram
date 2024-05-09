@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { CreatePostSchema } from "@/schemas";
 import { auth } from "@/auth";
-import { upload } from "@/lib/cloudinary";
+import { destroy, upload } from "@/lib/cloudinary";
 import { CloudinaryImage } from "@/types";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
@@ -23,6 +23,7 @@ export const actionCreatePost = async (
   const { caption, disable_comments } = validatedFields.data;
 
   const data: CloudinaryImage = await upload(formData);
+  console.log("Data: ", data);
   if (!data) return { error: "Error in uploading the file to the cloud" };
 
   const session = await auth();
@@ -35,6 +36,7 @@ export const actionCreatePost = async (
 
   const newPost = await prisma.post.create({
     data: {
+      public_id: data.public_id,
       sourceUrl: data.secure_url,
       userId: loggedInUser.id,
       caption,
@@ -50,12 +52,16 @@ export const actionCreatePost = async (
   return { success: "Posted Sucessfully!" };
 };
 
-export const actionDeletePost = async (postId: string) => {
-  const deletedComments = await deleteAllCommentsByPostId(postId);
+export const actionDeletePost = async (post: Post) => {
+  const deletedComments = await deleteAllCommentsByPostId(post.id);
   if (!deletedComments) return { error: "Something went wrong!" };
 
+  // const data = await destroy(post.public_id);
+  // console.log(data);
+  // if (!data) return { error: "Error in uploading the file to the cloud" };
+
   const deletedPost = await prisma.post.delete({
-    where: { id: postId },
+    where: { id: post.id },
   });
   if (!deletedPost) return { error: "Something went wrong!" };
 

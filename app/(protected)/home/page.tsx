@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { getUsersByIds } from "@/data/userdb";
 import FollowRequestNotification from "./follow-request-notification";
+import HomeContainer from "./home-container";
+import { Separator } from "@/components/ui/separator";
 
 export default async function Home() {
   const session = await auth();
@@ -9,11 +11,13 @@ export default async function Home() {
   const followRequests = await getUsersByIds(user?.follow_requests);
 
   return (
-    <main>
+    <main className='flex'>
       {followRequests && followRequests.length > 0 && (
         <FollowRequestNotification followRequests={followRequests} />
       )}
-      Home
+      <HomeContainer loggedInUser={user} />
+      <Separator orientation='vertical' />
+      <div>People you might know</div>
     </main>
   );
 }

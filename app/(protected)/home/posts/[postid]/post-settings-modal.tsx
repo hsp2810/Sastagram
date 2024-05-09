@@ -32,7 +32,7 @@ export default function PostSettingsModal({ post }: { post: Post }) {
 
   const handleDeletePost = async () => {
     toggleModal();
-    await actionDeletePost(post.id);
+    await actionDeletePost(post);
   };
 
   return (

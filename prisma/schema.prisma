@@ -69,6 +69,7 @@ model Story {
 model Post {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
   uploader         User      @relation(fields: [userId], references: [id])
+  public_id        String
   sourceUrl        String
   uploadedTime     DateTime? @default(now())
   caption          String?

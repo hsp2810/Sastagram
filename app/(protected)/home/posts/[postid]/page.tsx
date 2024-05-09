@@ -26,7 +26,7 @@ export default async function PostPage({ params }: PageProps) {
   const loggedInUser = session.user;
 
   const post = await getPostById(params.postid);
-  if (!post) return <HeaderDisplay title='Session Expired' />;
+  if (!post) return <HeaderDisplay title='Post not found' />;
 
   const comments = await getCommentsByPostId(params.postid);
 
@@ -44,7 +44,7 @@ export default async function PostPage({ params }: PageProps) {
                   <Icons.spinner className='h-4 w-4' />
                 </span>
               )}`}
-              className='absolute inset-0 object-cover w-full h-full'
+              className='absolute inset-0 object-contain w-full h-full'
             />
           </div>
         </section>
